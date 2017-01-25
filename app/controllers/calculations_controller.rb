@@ -49,7 +49,7 @@ class CalculationsController < ApplicationController
     render("loan_payment.html.erb")
   end
 
-# third section
+  # third section
 
   def time_between
     @starting = Chronic.parse(params[:starting_time])
@@ -78,7 +78,7 @@ class CalculationsController < ApplicationController
     render("time_between.html.erb")
   end
 
-# fourth section
+  # fourth section
 
   def descriptive_statistics
     @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
@@ -125,6 +125,9 @@ class CalculationsController < ApplicationController
     b = v ** d
     @standard_deviation = b
 
+    # MODE TEST
+    # Very true! It’s a pretty dumb test; it’s just looking for the presence of the mode anywhere on the entire page, which of course passes since the whole list is displayed first thing.
+    # We should narrow the test to look within a particular CSS selector. Ask me about this in class so we can discuss it with everyone?
     @mode = n.sum
 
     render("descriptive_statistics.html.erb")
