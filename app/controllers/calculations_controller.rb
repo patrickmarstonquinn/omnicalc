@@ -8,7 +8,11 @@ class CalculationsController < ApplicationController
     @special_word = params[:user_word]
 
     @character_count_with_spaces = @text.length
-    @character_count_without_spaces = @text.gsub(" ", "").length
+
+    #  @character_count_without_spaces = @text.gsub(" ", "").length
+    z = @text.gsub(/[\s+]/, "")
+    @character_count_without_spaces = z.length
+
     @word_count = @text.split.size
 
     oc = 0
@@ -121,7 +125,7 @@ class CalculationsController < ApplicationController
     b = v ** d
     @standard_deviation = b
 
-    @mode = "Replace this string with your answer."
+    @mode = n.sum
 
     render("descriptive_statistics.html.erb")
   end
