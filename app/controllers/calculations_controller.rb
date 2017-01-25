@@ -74,8 +74,10 @@ def descriptive_statistics
   @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
 
   n = @numbers
+  l = @numbers.length
 
   @sorted_numbers = n.sort
+  s = @sorted_numbers
 
   @count = n.count
 
@@ -83,9 +85,16 @@ def descriptive_statistics
 
   @maximum = n.max
 
-  @range = "Replace this string with your answer."
+  r = @maximum - @minimum
+  @range = r.abs
 
-  @median = "Replace this string with your answer."
+  m = l / 2
+  if l % 2 == 0
+    median = (s[m] + s[m - 1]) / 2
+  else
+    median = s[m]
+  end
+  @median = median
 
   @sum = n.sum
 
