@@ -1,6 +1,6 @@
 class CalculationsController < ApplicationController
 
-# first section
+  # first section
 
   def word_count
 
@@ -22,90 +22,107 @@ class CalculationsController < ApplicationController
     }
     @occurrences = oc
 
-  render("word_count.html.erb")
-end
-
-# second section
-
-def loan_payment
-
-  @apr = params[:annual_percentage_rate].to_f
-  @years = params[:number_of_years].to_i
-  @principal = params[:principal_value].to_f
-
-# PMT = P*(r/12)
-#       --------
-#       1 - [1 + (r/12)]^-12Y
-
-
-  @monthly_payment = "your text"
-
-  render("loan_payment.html.erb")
-end
-
-def time_between
-  @starting = Chronic.parse(params[:starting_time])
-  @ending = Chronic.parse(params[:ending_time])
-
-  # default time measurement is seconds
-
-  s = @ending - @starting
-  @seconds = s.abs
-
-  m = s/60
-  @minutes = m.abs
-
-  h = m/60
-  @hours = h.abs
-
-  d = h/24
-  @days = d.abs
-
-  w = d/7
-  @weeks = w.abs
-
-  y = w/52
-  @years = y.abs
-
-  render("time_between.html.erb")
-end
-
-def descriptive_statistics
-  @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
-
-  n = @numbers
-  l = @numbers.length
-
-  @sorted_numbers = n.sort
-  s = @sorted_numbers
-
-  @count = n.count
-
-  @minimum = n.min
-
-  @maximum = n.max
-
-  r = @maximum - @minimum
-  @range = r.abs
-
-  m = l / 2
-  if l % 2 == 0
-    median = (s[m] + s[m - 1]) / 2
-  else
-    median = s[m]
+    render("word_count.html.erb")
   end
-  @median = median
 
-  @sum = n.sum
+  # second section
 
-  @mean = n.sum/n.size
+  def loan_payment
 
-  @variance = "Replace this string with your answer."
+    @apr = params[:annual_percentage_rate].to_f
+    @years = params[:number_of_years].to_i
+    @principal = params[:principal_value].to_f
 
-  @standard_deviation = "Replace this string with your answer."
+    # PMT = P*(r/12)
+    #       --------
+    #       1 - [1 + (r/12)]^-12Y
 
-  @mode = "Replace this string with your answer."
+    p = @principal
+    m = @years * 12
+    r = @apr/1200
+    @monthly_payment = p * (r + (r / ((1 + r) ** m - 1) ) )
 
-  render("descriptive_statistics.html.erb")
-end
+    render("loan_payment.html.erb")
+  end
+
+# third section
+
+  def time_between
+    @starting = Chronic.parse(params[:starting_time])
+    @ending = Chronic.parse(params[:ending_time])
+
+    # default time measurement is seconds
+
+    s = @ending - @starting
+    @seconds = s.abs
+
+    m = s/60
+    @minutes = m.abs
+
+    h = m/60
+    @hours = h.abs
+
+    d = h/24
+    @days = d.abs
+
+    w = d/7
+    @weeks = w.abs
+
+    y = w/52
+    @years = y.abs
+
+    render("time_between.html.erb")
+  end
+
+# fourth section
+
+  def descriptive_statistics
+    @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
+
+    n = @numbers
+    l = @numbers.length
+
+    @sorted_numbers = n.sort
+    s = @sorted_numbers
+
+    @count = n.count
+
+    @minimum = n.min
+
+    @maximum = n.max
+
+    r = @maximum - @minimum
+    @range = r.abs
+
+    m = l / 2
+    if l % 2 == 0
+      median = (s[m] + s[m - 1]) / 2
+    else
+      median = s[m]
+    end
+    @median = median
+
+    @sum = n.sum
+
+    @mean = n.sum/n.size
+
+    # Subtract the mean from each value in the data. This gives you a measure of the distance of each value from the mean.
+    # Square each of these distances (so that they are all positive values), and add all of the squares together.
+    # Divide the sum of the squares by the number of values in the data set.
+
+    mean = @mean
+    g = n.map { |i| i - mean }
+    p = g.map { |i| i ** 2 }
+    v = p.sum / l
+    @variance = v
+
+    k = v.abs
+    d = 1.0/2
+    b = v ** d
+    @standard_deviation = b
+
+    @mode = "Replace this string with your answer."
+
+    render("descriptive_statistics.html.erb")
+  end
 end
