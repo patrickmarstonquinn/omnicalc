@@ -1,4 +1,4 @@
-# Omnicalc
+ # Omnicalc
 
 The goal of this project is to get more practice with writing Ruby programs. You will execute the code simply by visiting a particular URL in your browser. **Your visit will trigger the execution of the Ruby code, and the output will appear in your browser window.**
 
