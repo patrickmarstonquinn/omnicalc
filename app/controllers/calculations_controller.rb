@@ -15,7 +15,7 @@ class CalculationsController < ApplicationController
 
     @character_count_without_spaces = @text.gsub(" ", "").length
 
-    @word_count = "Replace this string with your answer."
+    @word_count = @text.split.size
 
     @occurrences = "Replace this string with your answer."
 
